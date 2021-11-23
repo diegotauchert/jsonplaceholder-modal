@@ -13,4 +13,10 @@ connect.interceptors.response.use(function (response) {
     return format({status: error.response.status}, error.response.data)
 })
 
+connect.interceptors.request.use(function (request) {
+    return request
+}, error => {
+    return format({status: error.request.status}, error.request.data)
+})
+
 export {connect}

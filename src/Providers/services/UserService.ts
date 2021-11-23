@@ -17,7 +17,7 @@ export class UserService {
 
   static async posts(user_id:number, limit?:number, offset?:number): Promise<any> {
     const params = new URLSearchParams([
-        ['userId', user_id?.toString() || "3"], 
+        ['userId', user_id?.toString()], 
         ['_limit', limit?.toString() || "3"], 
         ['_start', offset?.toString() || '0']
       ]);
