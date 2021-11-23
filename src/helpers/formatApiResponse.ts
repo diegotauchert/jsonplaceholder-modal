@@ -10,7 +10,6 @@ export interface FormatApiResponse {
   error: boolean
 }
 
-// ajeitar essa função para modelar todos os request depois
 function format({data = [], status}: FormatParams, errors?: any) {
   let code: number;
   let error: boolean;
@@ -37,11 +36,11 @@ function format({data = [], status}: FormatParams, errors?: any) {
       })
     }
   }
-  if (status == 200) {
+  if (status === 200) {
     msg = "Sucesso ao salvar dados"
     error = false
   }
-  if (status == 204) {
+  if (status === 204) {
     msg = "Sucesso ao criar objeto"
     error = false
   }

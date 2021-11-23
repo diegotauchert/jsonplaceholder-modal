@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {Suspense, lazy} from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
-require('dotenv').config()
-
-import App from './app/home';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/styles/index.css";
+import Spinner from './components/Spinner';
+const App = lazy(() => import('./app/home'));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback={<Spinner />}>
+      <App />
+    </Suspense>
   </React.StrictMode>,
   document.getElementById('root')
 );
