@@ -23,8 +23,12 @@ const UserList = ({users}:IUserListProps) => {
   }
 
   useEffect(() => {
-    // @ts-ignore
-    divRef.current?.scrollIntoView({ behavior: 'smooth' });
+    try{
+      // @ts-ignore
+      divRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }catch(err){
+      
+    }
   },[users])
   
   return (

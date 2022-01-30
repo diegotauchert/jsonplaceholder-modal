@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { UserService } from "../providers/services/UserService";
+import { UserService } from "../Providers/services/UserService";
 import { IPost } from "../interfaces/IPost";
 import { IUser } from "../interfaces/IUser";
+import { Loading } from "./Loading";
 
 type IMyModalProps = {
   show: boolean;
@@ -17,22 +18,27 @@ const MyModal = ({show, handleClose, selectedUser}:IMyModalProps) => {
   const [posts, setPosts] = useState<IPost[]>([] as IPost[]);
   const [offset, setOffset] = useState<number>(0);
   const divRef = useRef(null);
+  const [loading, setLoading] = useState<boolean>(false);
   
   useEffect(() => {
     if(selectedUser.id){
+      setLoading(true);
       UserService.posts(selectedUser.id, 3, offset).then(res => {
         if(res.status === 200) {
           setPosts([...posts, ...res.data]);
-          // @ts-ignore
-          divRef.current?.scrollIntoView({ behavior: 'smooth' });
+          try{
+            // @ts-ignore
+            divRef.current?.scrollIntoView({ behavior: 'smooth' });
+          }catch(err){
+            
+          }
         }
-      }).catch(err => console.log(err));
+      }).catch(err => console.log(err))
+      .finally(() => setLoading(false))
     }
   }, [selectedUser, offset]);
 
   const handleBeforeClose = () => {
-    console.log('limpando componente');
-
     setPosts([]);
     setOffset(0);
     handleClose();
@@ -45,6 +51,7 @@ const MyModal = ({show, handleClose, selectedUser}:IMyModalProps) => {
   return (
     <>
     <Modal show={show}>
+      {loading && <Loading />}
         <Modal.Header>
           <Modal.Title className="w-100 d-flex justify-content-between">
             Postagens &raquo; {selectedUser.name}
@@ -65,7 +72,7 @@ const MyModal = ({show, handleClose, selectedUser}:IMyModalProps) => {
                   <p className="fs-6 text-justify"><small>{post.body}</small></p>
                 </div>
                 <div className="col-2">
-                  <button onClick={() => deletarPost(post)} className="resetBtn text-primary">
+                  <button name="deletar" data-testid={`deletar-${key}`} onClick={() => deletarPost(post)} className="resetBtn text-primary">
                     <small><i className="fas fa-trash-alt"></i> Deletar</small>
                   </button>
                 </div>
