@@ -2,23 +2,26 @@ import {lazy, useEffect, useState} from "react";
 import { Loading } from "./components/Loading";
 import ContentWrapper from './components/ContentWrapper';
 import { IUser } from "./interfaces/IUser";
-import { UserService } from "./services/UserService";
+import { useFetchUsers } from "./hooks/useFetchUsers";
 const UserList = lazy(() => import('./components/UserList'));
 
 function App() {
   const [users, setUsers] = useState<IUser[]>([] as IUser[]);
   const [offset, setOffset] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+  const { data, error } = useFetchUsers(3, offset);
   
   useEffect(() => {
-    setLoading(true);
-    UserService.users(3, offset).then(res => {
-      if(res.status === 200) {
-        setUsers([...users, ...res.data]);
+    if(data){
+      setLoading(true);
+      if(data.status === 200 && !error) {
+        setUsers([...users, ...data.data]);
+      }else{
+        throw new Error(error);
       }
-    })
-    .finally(() => setLoading(false));
-  }, [offset]);
+      setLoading(false);
+    }
+  }, [data, error, setUsers]);
 
   return (
     <ContentWrapper>

@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { UserService } from "../services/UserService";
 import { IPost } from "../interfaces/IPost";
 import { IUser } from "../interfaces/IUser";
+import { useFetchPosts } from "../hooks/useFetchPosts";
 import { Loading } from "./Loading";
 
 type IMyModalProps = {
@@ -14,29 +14,29 @@ type IMyModalProps = {
   selectedUser: IUser;
 }
 const MyModal = ({show, handleClose, selectedUser}:IMyModalProps) => {
-  
   const [posts, setPosts] = useState<IPost[]>([] as IPost[]);
   const [offset, setOffset] = useState<number>(0);
   const divRef = useRef(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { data, error } = useFetchPosts(selectedUser.id, 3, offset);
   
   useEffect(() => {
-    if(selectedUser.id){
+    if(selectedUser.id && data){
       setLoading(true);
-      UserService.posts(selectedUser.id, 3, offset).then(res => {
-        if(res.status === 200) {
-          setPosts([...posts, ...res.data]);
-          try{
-            // @ts-ignore
-            divRef.current?.scrollIntoView({ behavior: 'smooth' });
-          }catch(err){
-            
-          }
-        }
-      }).catch(err => console.log(err))
-      .finally(() => setLoading(false))
+
+      if(data.status === 200 && !error) {
+        console.log(data.data)
+        setPosts([...posts, ...data.data]);
+        try{
+          // @ts-ignore
+          divRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }catch(err){}
+      }else{
+        throw new Error(error);
+      }
+      setLoading(false)
     }
-  }, [selectedUser, offset]);
+  }, [selectedUser.id, data, error, setPosts]);
 
   const handleBeforeClose = () => {
     setPosts([]);
