@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/styles/index.css";
 import Spinner from './components/Spinner';
-const App = lazy(() => import('./app/home'));
+const App = lazy(() => import('./App'));
 
 ReactDOM.render(
   <React.StrictMode>

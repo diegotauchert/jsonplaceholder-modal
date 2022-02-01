@@ -1,9 +1,9 @@
 import {lazy, useEffect, useState} from "react";
-import { Loading } from "../../components/Loading";
-import ContentWrapper from '../../components/ContentWrapper';
-import { IUser } from "../../interfaces/IUser";
-import { UserService } from "../../Providers/services/UserService";
-const UserList = lazy(() => import('../../components/UserList'));
+import { Loading } from "./components/Loading";
+import ContentWrapper from './components/ContentWrapper';
+import { IUser } from "./interfaces/IUser";
+import { UserService } from "./services/UserService";
+const UserList = lazy(() => import('./components/UserList'));
 
 function App() {
   const [users, setUsers] = useState<IUser[]>([] as IUser[]);

@@ -1,6 +1,6 @@
-import {connect} from "../Api";
-import {IUser} from "../../interfaces/IUser";
-import {IPost} from "../../interfaces/IPost";
+import {connect} from "../core/Api";
+import {IUser} from "../interfaces/IUser";
+import {IPost} from "../interfaces/IPost";
 
 export class UserService {
 

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { UserService } from "../Providers/services/UserService";
+import { UserService } from "../services/UserService";
 import { IPost } from "../interfaces/IPost";
 import { IUser } from "../interfaces/IUser";
 import { Loading } from "./Loading";

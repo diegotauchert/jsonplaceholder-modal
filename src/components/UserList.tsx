@@ -39,7 +39,7 @@ const UserList = ({users}:IUserListProps) => {
         <h1 className="fs-2 text-center">Usuarios</h1>
         <div className="card">
           <ul className="list-group list-group-flush">
-            {users && users.map((user:IUser, key: number) => (
+            {Array.from(users)?.map((user:IUser, key: number) => (
               <li key={key} className="list-group-item">
                 <h2 className="card-text fs-5 py-3 gap-4">
                   <small className="fs-6">{key+1}.</small> 
