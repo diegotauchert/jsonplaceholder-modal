@@ -8,7 +8,11 @@ import { userDataMock } from '../mocks/userDataMock';
 import { userPostsDataMock } from '../mocks/userPostsDataMock';
 import userEvent from '@testing-library/user-event';
 
-const App = lazy(() => import('../app/home'));
+const App = lazy(() => import('../App'));
+
+jest.useFakeTimers();
+jest.spyOn(global, 'setTimeout');
+jest.setTimeout(50000) 
 
 const handlers = [
   rest.get(
